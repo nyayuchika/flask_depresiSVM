@@ -29,9 +29,11 @@ def predict():
     
     #lowercase
     lowercase = text_input.lower()
+   
     #remove punct
     import re
     punctuation = re.sub("[^\w\s\d]","",lowercase)
+   
     #convert slang
     alay_dict = pd.read_csv('new_kamusalay.csv', encoding='latin-1', header=None)
     alay_dict = alay_dict.rename(columns={0:'original', 1:'replacement'})
@@ -39,8 +41,9 @@ def predict():
     def normalize_alay(text):
         return " ".join([alay_dict_map[word] if word in alay_dict_map else word for word in text.split()])
     normalize_alay = normalize_alay(punctuation)
+   
     #remove stopwords
-    nltk.download('punk_tab')
+    nltk.download('punk')
     nltk.download('stopwords')
     text_tokens = word_tokenize(normalize_alay)
     tokens_without_sw = [word for word in text_tokens if not word in stopwords.words()]
@@ -49,8 +52,8 @@ def predict():
 
     #convert input
     text_transformed = vectorizer.transform(filtered_sentence)
-    #cek dulu gaiss
-    array = text_transformed.toarray()
+    # #cek dulu gaiss
+    # array = text_transformed.toarray()
     # #model
     # model = SVC(kernel='linear')
 

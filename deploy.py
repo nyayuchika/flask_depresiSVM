@@ -9,7 +9,7 @@ from nltk.tokenize import word_tokenize
 
 app = Flask(__name__)
 #load the model
-# model = pickle.load(open('new_depresimlmodel.sav', 'rb'))
+model = pickle.load(open('new_depresimlmodel.sav', 'rb'))
 vectorizer = pickle.load(open('new_vectorizer.sav', 'rb'))
 
 
@@ -41,6 +41,7 @@ def predict():
     normalize_alay = normalize_alay(punctuation)
     #remove stopwords
     nltk.download('punk_tab')
+    nltk.download('stopwords')
     text_tokens = word_tokenize(normalize_alay)
     tokens_without_sw = [word for word in text_tokens if not word in stopwords.words()]
     filtered_sentence = (" ").join(tokens_without_sw)
@@ -48,16 +49,18 @@ def predict():
 
     #convert input
     text_transformed = vectorizer.transform(filtered_sentence)
-    
-    #model
-    model = SVC(kernel='linear')
-
     #cek dulu gaiss
-    print(text_transformed.toarray())
+    array = text_transformed.toarray()
+    # #model
+    # model = SVC(kernel='linear')
 
+    
     #result
-    result = model.predict(text_transformed)[0]
+    result = model.predict(text_transformed)
+    confidence_score = model.decision_function(text_transformed)
+    
     return render_template('./index.html', **locals())
+    
 
 
 if __name__ == '__main__':

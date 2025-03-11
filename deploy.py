@@ -5,8 +5,8 @@ from sklearn.svm import SVC
 
 app = Flask(__name__)
 #load the model
-model = pickle.load(open('depresimlmodel.sav', 'rb'))
-vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
+model = pickle.load(open('new_depresimlmodel.sav', 'rb'))
+vectorizer = pickle.load(open('new_vectorizer.sav', 'rb'))
 
 
 # import os

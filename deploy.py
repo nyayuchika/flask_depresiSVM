@@ -9,7 +9,7 @@ from nltk.tokenize import word_tokenize
 
 app = Flask(__name__)
 #load the model
-model = pickle.load(open('new_depresimlmodel.sav', 'rb'))
+# model = pickle.load(open('new_depresimlmodel.sav', 'rb'))
 vectorizer = pickle.load(open('new_vectorizer.sav', 'rb'))
 
 
@@ -33,7 +33,7 @@ def predict():
     import re
     punctuation = re.sub("[^\w\s\d]","",lowercase)
     #convert slang
-    alay_dict = pd.read_csv('/content/drive/MyDrive/Dataset/new_kamusalay.csv', encoding='latin-1', header=None)
+    alay_dict = pd.read_csv('new_kamusalay.csv', encoding='latin-1', header=None)
     alay_dict = alay_dict.rename(columns={0:'original', 1:'replacement'})
     alay_dict_map = dict(zip(alay_dict['original'], alay_dict['replacement']))
     def normalize_alay(text):
@@ -49,12 +49,14 @@ def predict():
     #convert input
     text_transformed = vectorizer.transform(filtered_sentence)
     
-    
+    #model
+    model = SVC(kernel='linear')
+
     #cek dulu gaiss
     print(text_transformed.toarray())
 
     #result
-    result = model.predict(text_transformed)
+    result = model.predict(text_transformed)[0]
     return render_template('./index.html', **locals())
 
 

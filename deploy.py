@@ -12,7 +12,6 @@ app = Flask(__name__)
 model = pickle.load(open('new_depresimlmodel.sav', 'rb'))
 vectorizer = pickle.load(open('new_vectorizer.sav', 'rb'))
 
-
 # import os
 # print(os.lisdtdir())
 
@@ -54,10 +53,7 @@ def predict():
     text_transformed = vectorizer.transform(filtered_sentence)
     # #cek dulu gaiss
     # array = text_transformed.toarray()
-    # #model
-    # model = SVC(kernel='linear')
 
-    
     #result
     result = model.predict(text_transformed)
     confidence_score = model.decision_function(text_transformed)

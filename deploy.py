@@ -55,8 +55,8 @@ def predict():
     # array = text_transformed.toarray()
 
     #result
-    result = model.predict(text_transformed)
-    confidence_score = model.decision_function(text_transformed)
+    result = model.predict(text_transformed)[0]
+    # confidence_score = model.decision_function(text_transformed)
     
     return render_template('./index.html', **locals())
     
